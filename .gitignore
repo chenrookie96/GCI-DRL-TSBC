@@ -23,9 +23,9 @@ wheels/
 .installed.cfg
 *.egg
 
-# PyTorch
-*.pth
-*.pt
+# PyTorch (exclude training checkpoints but keep saved models)
+training_checkpoints/**/*.pth
+training_checkpoints/**/*.pt
 
 # Jupyter Notebook
 .ipynb_checkpoints
