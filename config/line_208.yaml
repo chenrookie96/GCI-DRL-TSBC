@@ -1,0 +1,37 @@
+# 208线路配置
+
+line_info:
+  name: "208线"
+  line_id: "208"
+  
+  upward:
+    num_stations: 26
+    operating_hours: [360, 1260]  # 6:00-21:00 (分钟表示)
+    start_time_str: "6:00"
+    end_time_str: "21:00"
+    
+  downward:
+    num_stations: 24
+    operating_hours: [360, 1260]  # 6:00-21:00
+    start_time_str: "6:00"
+    end_time_str: "21:00"
+
+# 奖励函数参数 (线路特定)
+reward:
+  omega_up: 0.001  # 1/1000 上行等待时间惩罚参数
+  omega_down: 0.001  # 1/1000 下行等待时间惩罚参数
+
+# 数据文件路径
+data_paths:
+  upward_passengers: "test_data/208_upward_passengers.csv"
+  downward_passengers: "test_data/208_downward_passengers.csv"
+  traffic: "test_data/208_traffic.csv"
+
+# 人工方案基线 (用于对比)
+baseline:
+  upward_departures: 72
+  upward_awt: 4.06
+  upward_stranded: 3
+  downward_departures: 72
+  downward_awt: 4.6
+  downward_stranded: 176

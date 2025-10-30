@@ -1,0 +1,3 @@
+作为补充添加的数据。数据包含2种：
+1、arrive_depart_time_X.csv,其中X为0或1的方向，表示了在某一个日期（Date）时相应的线路和行向在s值对应站点出的进站时间（arrival_time）和出站时间（depart_time）；注意一般情况下起点站无进站时间（置为空），终点站无出站时间
+2、paddenger_dataframe_direction_X.csv，用户的进出站信息在原始的基础上添加了日期字段date

@@ -1,0 +1,52 @@
+# DRL-TSBC 主配置文件
+
+# DQN网络参数 (表2-2)
+model:
+  state_dim: 10
+  action_dim: 4
+  hidden_layers: 12
+  hidden_size: 500
+  learning_rate: 0.001
+  weight_init: 'normal'  # 正态分布初始化
+  activation: 'relu'
+
+# 训练参数
+training:
+  episodes: 50  # 最大模拟次数E
+  batch_size: 64  # 批次大小B
+  gamma: 0.4  # 折扣系数γ
+  epsilon: 0.1  # ε-贪婪探索率
+  replay_buffer_size: 3000  # 经验池大小M
+  update_frequency: 5  # 学习频率P (每5步学习一次)
+  target_update_frequency: 100  # 参数更新频率O (每100次学习更新目标网络)
+  save_frequency: 10  # 模型保存频率 (每10个episode)
+
+# 奖励函数参数
+reward:
+  mu: 5000  # 等待时间归一化参数
+  delta: 200  # 发车次数差异归一化参数
+  beta: 0.2  # 滞留乘客惩罚权重
+  zeta: 0.002  # 发车次数平衡权重
+
+# 发车约束
+constraints:
+  T_min: 3  # 最小发车间隔(分钟)
+  T_max: 15  # 最大发车间隔(分钟)
+
+# 车辆参数
+vehicle:
+  seats: 32  # 座位数C
+  standing_factor: 1.5  # 站立系数α
+  max_capacity: 48  # 最大载客量 (32 * 1.5)
+
+# GPU设置
+gpu:
+  enabled: true
+  device: 'cuda'  # 'cuda' 或 'cpu'
+
+# 路径配置
+paths:
+  data_dir: 'test_data'
+  model_dir: 'models'
+  result_dir: 'results'
+  log_dir: 'logs'

@@ -1,0 +1,37 @@
+# 211线路配置
+
+line_info:
+  name: "211线"
+  line_id: "211"
+  
+  upward:
+    num_stations: 17
+    operating_hours: [360, 1320]  # 6:00-22:00 (分钟表示)
+    start_time_str: "6:00"
+    end_time_str: "22:00"
+    
+  downward:
+    num_stations: 11
+    operating_hours: [360, 1320]  # 6:00-22:00
+    start_time_str: "6:00"
+    end_time_str: "22:00"
+
+# 奖励函数参数 (线路特定)
+reward:
+  omega_up: 0.001111  # 1/900 上行等待时间惩罚参数
+  omega_down: 0.001111  # 1/900 下行等待时间惩罚参数
+
+# 数据文件路径
+data_paths:
+  upward_passengers: "test_data/211_upward_passengers.csv"
+  downward_passengers: "test_data/211_downward_passengers.csv"
+  traffic: "test_data/211_traffic.csv"
+
+# 人工方案基线 (用于对比)
+baseline:
+  upward_departures: 76
+  upward_awt: 4.68
+  upward_stranded: 0
+  downward_departures: 76
+  downward_awt: 3.5
+  downward_stranded: 0
