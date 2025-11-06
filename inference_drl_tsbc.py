@@ -21,23 +21,24 @@ from drl_tsbc_environment import (
 from data_loader import BusDataLoader, check_data_files  # 新增：使用统一的数据加载器
 
 # 线路配置
-busline = 208
+busline = 211
 direction_up = 0
 direction_down = 1
 
 # omega参数（与训练时保持一致）
-omega_factor = 3000
+omega_factor = 900
 omega = 1 / omega_factor
 
 # 均匀排班配置（可在此修改）
-avg_flag = 0  # 不使用均匀排班
+#avg_flag = 0  # 不使用均匀排班
 # avg_flag = 1  # 特定区间等间隔排班（10:00-16:00，间隔12分钟）
 # avg_flag = 2  # 方差最小化均匀调整（全局）
-# avg_flag = 3  # 方差最小化均匀调整（特定区间）
+avg_flag = 3  # 方差最小化均匀调整（特定区间）
 
 # 数据路径
 data_dir = f"./test_data/{busline}"
-model_load_path = f"{data_dir}/drl_tsbc_model_{busline}_{omega_factor}.pth"
+# 使用81轮的checkpoint模型
+model_load_path = f"./training_checkpoints/Omega_{busline}_{omega_factor}/ep081_dep162_awt3.88.pth"
 
 # 检查数据文件
 if not check_data_files(busline, "./test_data"):

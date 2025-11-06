@@ -22,12 +22,12 @@ from drl_tsbc_environment import (
 from data_loader import BusDataLoader, check_data_files  # 新增：使用统一的数据加载器
 
 # 线路配置
-busline = 208
+busline = 211
 direction_up = 0  # 上行方向
 direction_down = 1  # 下行方向
 
-# omega参数（训练1/3000版本）
-omega_factor = 3000
+# omega参数（训练1/900版本）
+omega_factor = 900
 omega = 1 / omega_factor
 
 # 训练参数（论文表2-2）
@@ -268,8 +268,8 @@ def train():
         print(f"{'='*60}")
         
         # 每个episode结束时保存模型（用于后续选择最佳模型）
-        # 创建专门的文件夹：项目根目录下的 training_checkpoints/omega500/
-        checkpoint_dir = f"./training_checkpoints/omega{omega_factor}"
+        # 创建专门的文件夹：区分线路和omega值
+        checkpoint_dir = f"./training_checkpoints/Omega_{busline}_{omega_factor}"
         os.makedirs(checkpoint_dir, exist_ok=True)
         
         episode_model_path = f"{checkpoint_dir}/ep{episode+1:03d}_dep{len(departure_time_up)+len(departure_time_down)}_awt{(awt_up+awt_down)/2:.2f}.pth"

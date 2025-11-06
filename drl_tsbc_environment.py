@@ -24,13 +24,13 @@ train_counter = 5
 
 # 营运时间
 first_time = "06:00"
-last_time = "21:00"
+last_time = "22:00"  # 211线营运到22:00
 
 # 均匀排班配置
 start_time = "10:00"
 end_time = "16:00"
 ideal_interval = 12
-avg_flag = 0  # 0=不使用，1=特定区间等间隔，2=全局方差最小化，3=特定区间方差最小化
+avg_flag = 3  # 0=不使用，1=特定区间等间隔，2=全局方差最小化，3=特定区间方差最小化
 
 # 发车间隔约束
 min_Interval = 5
