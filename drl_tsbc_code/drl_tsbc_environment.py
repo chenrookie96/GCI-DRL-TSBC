@@ -24,7 +24,7 @@ train_counter = 5
 
 # 营运时间
 first_time = "06:00"
-last_time = "22:00"  # 211线营运到22:00
+last_time = "21:00"  # 208线营运到21:00
 
 # 均匀排班配置
 start_time = "10:00"
@@ -480,9 +480,15 @@ class DirectionSystem:
         
         # x_m^2: 归一化等待时间 W_m / μ
         wait_time_norm = This_departure_pre_wait_time / mu
+        # 处理NaN值
+        if np.isnan(wait_time_norm) or np.isinf(wait_time_norm):
+            wait_time_norm = 0.0
         
         # x_m^3: 客运容量利用率 o_m / e_m
         total_load_rate = np.sum(Passenger_num_on_board_leaving_station_num) / (alpha * self.pn_on_max * (self.station_number - 1))
+        # 处理NaN值
+        if np.isnan(total_load_rate) or np.isinf(total_load_rate):
+            total_load_rate = 0.0
         
         # x_m^4: 发车次数差 (c_m^up - c_m^down) / δ（论文公式2.10）
         departure_diff_norm = (len(self.bus_online) - other_direction_departures) / delta

@@ -1,0 +1,6 @@
+passenger_dataframe_direction0包含
+Label,Boarding time,Boarding station,Alighting station,Arrival time
+表示唯一乘客标识，上车时间，上车站点，下车站点，到达上车站点的预估时间
+traffic-0包含
+time_h1,time_h2,time_m1,time_m2,start_m,finish_m,s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,
+表示小时数1，小时数2，分钟数1，分钟数2，开始时间1（小时数1*60+分钟数1），开始时间2（小时数1*60+分钟数1），后面表示当前站点到下一个站点所需时间(分钟)，最后一列可用0补齐，表示末站，实际上不影响模型性能。

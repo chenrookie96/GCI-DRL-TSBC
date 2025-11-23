@@ -6,6 +6,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import numpy as np
+import sys
 
 # 设置中文字体
 rcParams['font.sans-serif'] = ['SimHei']
@@ -63,20 +64,20 @@ fig.tight_layout()
 # 保存图片
 output_file = 'omega_comparison_211.png'
 plt.savefig(output_file, dpi=300, bbox_inches='tight')
-print(f"图片已保存: {output_file}")
+print(f"图片已保存: {output_file}", flush=True)
 
 # 关闭图形
 plt.close()
 
-print("\n数据对比：")
-print("="*70)
-print(f"{'ω':<12} {'发车次数':<12} {'上行AWT':<12} {'下行AWT':<12}")
-print("-"*70)
+print("\n数据对比：", flush=True)
+print("="*70, flush=True)
+print(f"{'ω':<12} {'发车次数':<12} {'上行AWT':<12} {'下行AWT':<12}", flush=True)
+print("-"*70, flush=True)
 for i in range(len(omega_labels)):
-    print(f"{omega_labels[i]:<12} {ndt[i]:<12} {awt_upward[i]:<12.2f} {awt_downward[i]:<12.2f}")
-print("="*70)
+    print(f"{omega_labels[i]:<12} {ndt[i]:<12} {awt_upward[i]:<12.2f} {awt_downward[i]:<12.2f}", flush=True)
+print("="*70, flush=True)
 
-print("\n观察：")
-print("1. ω越小（如1/4000），发车次数越少（53次），但AWT越高（8.45分钟）")
-print("2. ω越大（如1/500），发车次数越多（80次），但AWT越低（3.29分钟）")
-print("3. 这说明ω控制了等待时间与发车成本的权衡")
+print("\n观察：", flush=True)
+print("1. ω越小（如1/4000），发车次数越少（53次），但AWT越高（8.45分钟）", flush=True)
+print("2. ω越大（如1/500），发车次数越多（80次），但AWT越低（3.29分钟）", flush=True)
+print("3. 这说明ω控制了等待时间与发车成本的权衡", flush=True)

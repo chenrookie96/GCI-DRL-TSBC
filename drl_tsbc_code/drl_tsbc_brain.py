@@ -20,7 +20,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
 # 论文表2-2中的超参数
-learning_rate = 0.01  # 与原始代码保持一致
+learning_rate = 0.005  # 提高学习率加快收敛
 batch_size = 64  # 论文要求：批次大小B
 discount_rate = 0.4  # 论文表2-2：折扣系数γ
 memory_size = 3000  # 论文表2-2：经验池大小M
