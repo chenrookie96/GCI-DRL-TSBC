@@ -38,8 +38,8 @@ avg_flag = 0  # 不使用均匀排班
 # 数据路径
 data_dir = f"./test_data/{busline}"
 # 使用训练好的模型
-# model_load_path = f"./saved_models/{busline}_omega{omega_factor}.pth"
-model_load_path = f"./training_checkpoints/omega1000_renew/ep029_dep150_awt3.75.pth"  # 使用第29轮模型
+model_load_path = f"./saved_models/{busline}_omega{omega_factor}.pth"  # 使用saved_models中的模型
+# model_load_path = f"./training_checkpoints/omega1000_renew/ep029_dep150_awt3.75.pth"  # 使用指定模型
 
 # 检查数据文件
 if not check_data_files(busline, "./test_data"):
@@ -430,7 +430,7 @@ def inference():
         print(f"  {i+1}. {hour:02d}:{minute:02d}")
     
     # 保存结果到文件（论文表2-3格式）
-    result_file = f"{data_dir}/drl_tsbc_result_{busline}_{omega_factor}.txt"
+    result_file = f"{data_dir}/drl_tsbc_result_{busline}_{omega_factor}_savedmodel.txt"
     with open(result_file, 'w', encoding='utf-8') as f:
         f.write(f"DRL-TSBC Inference Results for Line {busline}\n")
         f.write(f"{'='*80}\n\n")

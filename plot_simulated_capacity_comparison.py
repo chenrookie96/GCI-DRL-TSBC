@@ -1,7 +1,6 @@
 """
 使用模拟数据绘制容量对比图（图2-3）
 直接使用 simulate_with_correct_env.py 生成的真实需求和DRL-TSBC容量数据
-不使用任何平滑或时间窗口处理
 """
 
 import matplotlib.pyplot as plt

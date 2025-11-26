@@ -16,7 +16,10 @@
 
 **完成内容**:
 - ✅ 复现图2-3：原始数据的真实需求与DRL-TSBC容量对比
+- ✅ 复现图2-4：208线上下行总客运容量与真实需求对比
+- ✅ 复现图2-5：增加晚高峰客流前后对比（突发事件响应）
 - ✅ 复现图2-6：晚高峰提前实验
+- ✅ 复现图2-7：上下行不对称需求实验
 - ✅ 复现图2-8：不同ω参数对比实验
 - ✅ 208和211线路多个ω值的训练与推理
 
@@ -24,7 +27,7 @@
 - 线路：208
 - 模型：omega=1/1000
 - 发车次数：69班（上下行各69）
-- 平均等待时间：3.96分钟
+- 平均等待时间：4.00分钟
 - 滞留乘客：0
 
 ### 🚧 第二阶段：算法改进（进行中）
@@ -43,6 +46,9 @@ DRL-TSBC/
 │   ├── train_drl_tsbc.py       # 训练脚本
 │   ├── inference_drl_tsbc.py   # 推理脚本（原始数据）
 │   ├── inference_208_shifted.py # 推理脚本（shifted数据）
+│   ├── inference_208_surge.py  # 推理脚本（突发客流）
+│   ├── inference_208_mixed.py  # 推理脚本（混合数据）
+│   ├── create_surge_passenger_data.py # 创建突发客流数据
 │   ├── simulate_*.py           # 环境模拟脚本
 │   ├── plot_*.py               # 绘图脚本
 │   ├── data_loader.py          # 数据加载器
@@ -51,7 +57,9 @@ DRL-TSBC/
 ├── saved_models/               # 训练好的模型和推理结果
 │   ├── 208_omega1000.pth       # 208线模型
 │   ├── 208_omega1000.txt       # 原始数据推理结果
-│   └── 208_omega1000_shifted.txt # shifted数据推理结果
+│   ├── 208_omega1000_shifted.txt # shifted数据推理结果
+│   ├── 208_omega1000_surge.txt # 突发客流推理结果
+│   └── 208_omega1000_mixed.txt # 混合数据推理结果
 │
 ├── bus_data/                   # 原始数据
 ├── test_data/                  # 处理后的数据
@@ -81,14 +89,26 @@ pip install -r requirements.txt
 # 切换到复现版本
 git checkout v1.0-reproduction
 
-# 使用已有模型进行模拟
+# 图2-3：原始数据对比
 python drl_tsbc_code/simulate_with_savedmodel.py
-
-# 绘制图2-3
 python drl_tsbc_code/plot_figure_2_3_savedmodel.py
 
-# 绘制图2-6
+# 图2-4：上下行容量对比
+python drl_tsbc_code/simulate_figure_2_4.py
+python drl_tsbc_code/plot_figure_2_4.py
+
+# 图2-5：突发客流响应
+python drl_tsbc_code/create_surge_passenger_data.py
+python drl_tsbc_code/inference_208_surge.py
+python drl_tsbc_code/simulate_surge_comparison.py
+python drl_tsbc_code/plot_figure_2_5.py
+
+# 图2-6：晚高峰提前实验
 python drl_tsbc_code/plot_figure_2_6_savedmodel.py
+
+# 图2-7：上下行不对称需求
+python drl_tsbc_code/simulate_bidirectional_savedmodel.py
+python drl_tsbc_code/plot_figure_2_7_savedmodel.py
 ```
 
 ### 3. 重新训练（可选）
@@ -111,8 +131,31 @@ python drl_tsbc_code/inference_drl_tsbc.py
 
 **关键指标**:
 - 发车次数：69班
-- 平均等待时间：3.96分钟
+- 平均等待时间：4.00分钟
 - 滞留乘客：0
+
+### 图2-4：上下行容量对比
+
+展示208线上下行方向的总客运容量与真实需求
+
+**结果**:
+- 上行：早高峰容量360，晚高峰容量257.6
+- 下行：晚高峰容量260.8
+- 上行客流明显高于下行
+
+### 图2-5：突发客流响应
+
+在上行第9站增加晚高峰客流，模拟突发事件
+
+**实验设置**:
+- 在第9站增加300人晚高峰客流（17:00-19:00）
+- 对比调整前后的容量和需求
+
+**结果**:
+- 调整前：69次发车
+- 调整后：72次发车（增加3次）
+- 晚高峰容量显著增加（如18:00从257.6增至328.0）
+- 双向发车次数保持相等
 
 ### 图2-6：晚高峰提前实验
 
@@ -127,6 +170,18 @@ python drl_tsbc_code/inference_drl_tsbc.py
 - 调整前高峰：18:00（需求163.8）
 - 调整后高峰：17:00（需求184.6）
 - 相关系数：0.9525
+
+### 图2-7：上下行不对称需求
+
+展示DRL-TSBC在不对称需求下保持发车次数一致
+
+**实验设置**:
+- 上行：晚高峰提前1小时（shifted数据）
+- 下行：保持原始数据
+
+**结果**:
+- 上下行发车次数均为73次
+- 即使需求不对称，仍保持双向平衡
 
 ---
 

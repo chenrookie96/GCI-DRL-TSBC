@@ -1,8 +1,164 @@
-# DRL-TSBC 实现说明
+# DRL-TSBC: 基于深度强化学习的双向公交时刻表排班算法
 
-## 文件说明
+> 论文复现与改进项目
 
-本项目基于单向示例代码改造为双向DRL-TSBC算法，主要文件如下：
+## 📖 项目简介
+
+本项目复现了论文《基于交通大数据的公交排班和调度机制研究》（谢嘉昊, 王玺钧）中的DRL-TSBC算法，并在此基础上进行改进研究。
+
+---
+
+## 🎯 项目阶段
+
+### ✅ 第一阶段：论文复现（已完成）
+
+**标签**: `v1.0-reproduction`
+
+**完成内容**:
+- ✅ 复现图2-3：原始数据的真实需求与DRL-TSBC容量对比
+- ✅ 复现图2-6：晚高峰提前实验
+- ✅ 复现图2-8：不同ω参数对比实验
+- ✅ 208和211线路多个ω值的训练与推理
+
+**实验结果**:
+- 线路：208
+- 模型：omega=1/1000
+- 发车次数：69班（上下行各69）
+- 平均等待时间：3.96分钟
+- 滞留乘客：0
+
+### 🚧 第二阶段：算法改进（进行中）
+
+**分支**: `improvement-phase2`
+
+---
+
+## 📁 项目结构
+
+```
+DRL-TSBC/
+├── drl_tsbc_code/              # 核心代码
+│   ├── drl_tsbc_brain.py       # DQN网络和智能体
+│   ├── drl_tsbc_environment.py # 双向公交环境模拟
+│   ├── train_drl_tsbc.py       # 训练脚本
+│   ├── inference_drl_tsbc.py   # 推理脚本（原始数据）
+│   ├── inference_208_shifted.py # 推理脚本（shifted数据）
+│   ├── simulate_*.py           # 环境模拟脚本
+│   ├── plot_*.py               # 绘图脚本
+│   ├── data_loader.py          # 数据加载器
+│   └── config_drl_tsbc.py      # 配置文件
+│
+├── saved_models/               # 训练好的模型和推理结果
+│   ├── 208_omega1000.pth       # 208线模型
+│   ├── 208_omega1000.txt       # 原始数据推理结果
+│   └── 208_omega1000_shifted.txt # shifted数据推理结果
+│
+├── bus_data/                   # 原始数据
+├── test_data/                  # 处理后的数据
+├── 参考代码/                   # 原始参考实现
+├── requirements.txt            # Python依赖包
+└── CHANGELOG.md               # 版本更新日志
+```
+
+---
+
+## 🚀 快速开始
+
+### 1. 环境配置
+
+```bash
+# 克隆仓库
+git clone https://github.com/chenrookie96/GCI-DRL-TSBC.git
+cd GCI-DRL-TSBC
+
+# 安装依赖
+pip install -r requirements.txt
+```
+
+### 2. 查看复现结果
+
+```bash
+# 切换到复现版本
+git checkout v1.0-reproduction
+
+# 使用已有模型进行模拟
+python drl_tsbc_code/simulate_with_savedmodel.py
+
+# 绘制图2-3
+python drl_tsbc_code/plot_figure_2_3_savedmodel.py
+
+# 绘制图2-6
+python drl_tsbc_code/plot_figure_2_6_savedmodel.py
+```
+
+### 3. 重新训练（可选）
+
+```bash
+# 训练新模型
+python drl_tsbc_code/train_drl_tsbc.py
+
+# 使用新模型推理
+python drl_tsbc_code/inference_drl_tsbc.py
+```
+
+---
+
+## 📊 复现结果
+
+### 图2-3：原始数据对比
+
+对比真实需求、DRL-TSBC容量和人工方案
+
+**关键指标**:
+- 发车次数：69班
+- 平均等待时间：3.96分钟
+- 滞留乘客：0
+
+### 图2-6：晚高峰提前实验
+
+展示晚高峰提前1小时后的系统响应
+
+**实验设置**:
+- 原始晚高峰：17:00-19:00
+- 调整后晚高峰：16:00-18:00
+- 高峰成功提前：60分钟
+
+**结果**:
+- 调整前高峰：18:00（需求163.8）
+- 调整后高峰：17:00（需求184.6）
+- 相关系数：0.9525
+
+---
+
+## 🔬 核心算法
+
+### 状态空间（10维）
+
+根据论文公式2.1-2.14：
+- `a1, a2`: 时间特征
+- `x1-x4`: 上行状态（满载率、等待时间、容量利用率、发车次数差）
+- `y1-y4`: 下行状态
+
+### 动作空间（4个）
+
+- `0: (0,0)` - 上下行都不发车
+- `1: (0,1)` - 上行不发车，下行发车
+- `2: (1,0)` - 上行发车，下行不发车
+- `3: (1,1)` - 上下行都发车
+
+### DQN网络结构
+
+根据论文表2-2：
+- 隐藏层：12层
+- 每层神经元：500个
+- 激活函数：ReLU
+- 学习率：0.001
+
+---
+
+## 📝 主要脚本说明
+
+### 核心模块
 
 ### 核心文件
 
@@ -198,5 +354,5 @@ python data_loader.py
 
 1. 确保CUDA可用以加速训练（论文要求使用GPU）
 2. 训练时间较长，建议使用GPU
-3. 首次运行需要完整训练50个episode
+3. 训练要保证收敛了才结束，看reward和loss是否稳定
 4. 推理前确保模型文件存在

@@ -1,7 +1,5 @@
-drl_tsbc_code文件夹：
+一.drl_tsbc_code文件夹：
 存放所有涉及到的脚本，里面的脚本内容如下：
-requirements.txt：我在本项目使用的python依赖包
-
 drl_tsbc_environment.py：公交调度环境的实现
 
 drl_tsbc_brain.py：DQN：神经网络模型，实现Q网络、经验回放、动作选择等，训练和推理的核心算法
@@ -10,8 +8,7 @@ data_loader.py：统一的数据加载器，加载乘客数据、交通时间数
 
 train_drl_tsbc.py：DRL-TSBC模型训练脚本
 
-inference_drl_tsbc.py：通用推理脚本（原始数据）
-使用训练好的模型生成发车时刻表
+inference_drl_tsbc.py：通用推理脚本（原始数据）,使用训练好的模型生成发车时刻表
 
 inference_208_shifted.py：我进行了提前晚高峰的曲线图复现，所以此专门用于shifted后的数据的推理，生成shifted的发车时刻表
 
@@ -30,8 +27,8 @@ plot_omega_comparison_211.py：绘制图2-8
 
 config_drl_tsbc.py：集中管理所有参数
 
-drl_tsbc_result文件夹:
+二.drl_tsbc_result文件夹:
 存放着我复现的论文的几张图，分别是图2-3、图2-6和图2-8
 
-saved_models文件夹:
+三.saved_models文件夹:
 存放着208和211两条线路的多种Omega的训练模型和推理结果，以及208线路上行进行提前晚高峰的推理结果
